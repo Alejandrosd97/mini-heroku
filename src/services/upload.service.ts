@@ -20,7 +20,10 @@ export async function handleUpload(file: Express.Multer.File): Promise<{ url: st
   await buildDockerImage(imageName, projectPath);
 
   // 5️⃣ Run contenedor con Traefik
-  await runAppWithTraefik(imageName, projectName, projectName); // de momento sin env
+  // NOTE: runAppWithTraefik expects (appName, imageName, subdomain)
+  // appName should be the project name (used for container name),
+  // imageName is the docker image built above.
+  await runAppWithTraefik(projectName, imageName, projectName); // de momento sin env
 
   // 6️⃣ Registrar app
   const newApp: AppRegistryEntry = {
